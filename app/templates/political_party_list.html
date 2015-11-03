@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% for political_party in political_parties %}
+    <a href="{% url 'political_party_detail_view' political_party.pk %}">{{ political_party }}</a></br>
+{% endfor %}
+
+{% if request.user.is_staff %}
+<a href = "{% url 'political_party_create_view' %}">Create a new political party</a>
+{% endif %}
+
+{% endblock %}

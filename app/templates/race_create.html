@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <form action="{% url 'race_create_view' %}" enctype="multipart/form-data" method="POST" >
+        {% csrf_token %}    
+
+        {{ form.as_p }}
+
+        <input type="submit" value="Create race" />
+
+    </form>
+
+{% endblock %}

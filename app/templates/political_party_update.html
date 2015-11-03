@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form action="{% url 'political_party_update_view' political_party.pk %}" enctype="multipart/form-data" method='POST'>
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <p>
+            <input type='submit' value='Update political_party' />
+        </p>
+
+    </form>
+
+     {% if political_party.animal_image %}
+        <p>
+            <img src="{{ political_party.animal_image.url }}">
+        </p>
+        {% endif %}
+
+    <a href="{% url 'political_party_detail_view' political_party.pk %}">Back to {{political_party}}</a>
+{% endblock %}

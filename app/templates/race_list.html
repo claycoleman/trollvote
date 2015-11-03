@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% for race in races %}
+    <a href="{% url 'race_detail_view' race.pk %}">{{ race }}</a></br>
+{% endfor %}
+
+{% if request.user.is_staff %}
+<a href = "{% url 'race_create_view' %}" alt = "race_create_view" %}>Create a new race</a>
+{% endif %}
+<br>
+<a href="{% url 'choose_state_race_view' %}">See races by state...</a>
+
+{% endblock %}
+    

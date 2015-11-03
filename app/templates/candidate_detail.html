@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body %}
+{% if candidate.image %}
+<img src="{{candidate.image.url}}">
+{% endif %}
+<br>
+{{ candidate.name }}
+<br>  
+{{ candidate.known_for }}
+<br>  
+{{ candidate.hometown }}
+<br>
+
+{% if request.user.is_authenticated %}
+<h3><span id="up-vote-count">{{ candidate.up_vote_count }}</span>
+<img  class="vote-button" src="{% if request.user in candidate.up_users.all %}{% static 'img/voted-up.png' %}{% else %}{% static 'img/vote-up.png' %}{% endif %}" id="vote-up"></h3>
+<br>
+<h3><span id="down-vote-count">{{ candidate.down_vote_count }}</span>
+<img class="vote-button" src="{% if request.user in candidate.down_users.all %}{% static 'img/voted-down.png' %}{% else %}{% static 'img/vote-down.png' %}{% endif %}" id="vote-down"></h3>
+{% else %}
+<h3>Votes for: <span id="up-vote-count">{{ candidate.up_vote_count }}</span></h3>
+<h3>Votes against: <span id="down-vote-count">{{ candidate.down_vote_count }}</span></h3>
+<p>Log in or sign up to vote!</p>
+{% endif %}
+
+<br>
+{% for comment in candidate.comment_set.all %}
+    {{comment.author}}: {% if request.user == comment.author %}
+        <a href="{% url 'comment_detail_view' comment.pk %}">{{comment.body}}</a>{% else %}{{comment.body}}{% endif %}<br>
+{% endfor %}
+{% if request.user.is_authenticated %}
+<form action="{% url 'candidate_detail_view' candidate.pk %}" method="POST">
+    {% csrf_token %}
+    {{form.body.label}}<br>
+    {{form.body}}
+    <input type="submit" value="Comment">
+</form>
+{% endif %}
+<br>
+
+{% if request.user.is_staff %}
+<a href = "{% url 'candidate_delete_view' candidate.pk %}"  %}>Delete this candidate</a><br>
+<a href = "{% url 'candidate_update_view' candidate.pk %}" alt = "candidate_update_view candidate.pk" %}>Update {{ candidate.name }}</a>
+
+{% endif %}
+<br>
+<br>
+<input type="hidden" value="{{candidate.pk}}" id='pk'>
+
+<a href="{% url 'candidate_list_view' %}">Back to list</a>
+{% endblock %}  

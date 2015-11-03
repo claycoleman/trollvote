@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="row"> 
+<div class="col-xs-10 col-xs-offset-1">
+{% for candidate in candidates %}
+    <h3><a href="{% url 'candidate_detail_view' candidate.pk %}">{{ candidate }}</a></h3>
+    <h5>{{ candidate.known_for|upper }}</h5>
+    </br>
+{% endfor %}
+
+<input id='search' type='text' autocomplete="off"/>
+    <p id="results"></p>
+<br>
+{% if request.user.is_staff %}
+<a href = "{% url 'candidate_create_view' %}" %}>Create a new candidate</a>
+{% endif %}
+
+<br>
+<br>
+{% if request.user.is_authenticated %}
+<a href="{% url 'logout_view' %}">Log out {{request.user}}</a>
+{% else %}
+<a href="{% url 'login_view' %}">Log in here!</a>
+
+{% endif %}
+</div>
+</div>
+
+{% endblock %}

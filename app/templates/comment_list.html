@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% for comment in comments %}
+    <a href="{% url 'comment_detail_view' comment.pk %}">{{ comment }}</a></br>
+{% endfor %}
+
+{% endblock %}

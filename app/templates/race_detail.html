@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h1>{{ race.name }}</h1>
+<h3>{{ race.state_abbrev }}</h3>
+<br>
+<h4>Candidates for the {{race.name}}</h4>
+{% for candidate in race.candidate_set.all %}
+    <a href="{% url 'candidate_detail_view' candidate.pk %}">{{candidate.name}}</a><br>
+{% endfor %}
+<br>
+<br>
+<br>
+
+{% if request.user.is_staff %}
+<a href = "{% url 'race_delete_view' race.pk %}" alt = "race_delete_view" %}>Delete this race</a><br>
+<a href = "{% url 'race_update_view' race.pk %}" %}>Update {{ race.name }}</a>
+
+{% endif %}
+
+<br>
+<br>
+<a href="{% url 'race_list_view' %}">Back to race list</a>
+
+{% endblock %}  

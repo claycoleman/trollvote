@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h4>Comment on <a href="{% url 'candidate_detail_view' comment.candidate.pk %}">{{comment.candidate}}</a></h4>
+<br>
+{{ comment.body }}
+<br>  
+{{ comment.author }}
+<br>  
+{{ comment.date_posted }}
+<br>
+<br>
+<a href="{% url 'comment_delete_view' comment.pk %}">Delete your comment</a>
+<br>
+<a href="{% url 'comment_update_view' comment.pk %}">Update your comment</a>
+<br>
+<a href="{% url 'comment_list_view' %}">Back to list</a>
+
+
+
+{% endblock %}  

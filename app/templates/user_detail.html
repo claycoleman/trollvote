@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% if user.get_full_name %}
+    {{user.get_full_name}}
+{% endif %}
+<br>  
+{{ user.email }}
+<br>  
+The user is {% if not user.is_staff %}not{% endif %} staff.
+<br>
+<br>
+{% ifequal user request.user  %} 
+    <a href="{% url 'user_update_view' user.pk %}">Update your profile!</a>
+<br>
+{% endifequal %}
+
+<a href="{% url 'user_delete_view' user.pk %}">Delete your account...</a>
+<br>
+<br>
+<a href="{% url 'user_list_view' %}">Back to list</a>
+
+
+{% endblock %}  

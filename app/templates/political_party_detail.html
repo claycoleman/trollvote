@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h1>{{ political_party.name }}</h1>
+
+<h4>{{ political_party.initials }}</h4>
+<br>  
+{{ political_party.description }}
+<br>
+<h3>Candidates</h3>
+{% for candidate in political_party.candidate_set.all %}
+    <a href="{% url 'candidate_detail_view' candidate.pk %}">{{candidate}}</a>
+{% endfor %}
+<br>
+<br>
+
+
+{% if request.user.is_staff %}
+<a href = "{% url 'political_party_delete_view' political_party.pk %}">Delete this political party</a><br>
+<a href = "{% url 'political_party_update_view' political_party.pk %}" alt = "political_party_update_view political_party.pk" %}>Update {{ political_party.name }}</a>
+
+{% endif %}
+
+<br>
+<br>
+<a href="{% url 'political_party_list_view' %}">Back to political_party list</a>
+
+{% endblock %}  

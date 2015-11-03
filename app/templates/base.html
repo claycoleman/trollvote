@@ -1,0 +1,43 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>  
+<html>  
+<head>  
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+</head>  
+
+<body>
+    <section id="header">
+        <nav class="navbar nav-default">
+            <div class="container">
+                <div class="navbar-collapse">
+                    <ul class="nav navbar-right">
+                        <li><a href="{% url 'candidate_list_view' %}">Candidate List</a></li>
+                        <li><a href="{% url 'political_party_list_view' %}">Party List</a></li>
+                        <li><a href="{% url 'race_list_view' %}">Race List</a></li>
+                        <li><a href="{% url 'comment_list_view' %}">Comment List</a></li>
+                        <li><a href="{% url 'user_list_view' %}">User List</a></li>
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'logout_view' %}">Log Out {{request.user}}</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login_view' %}">Log In!</a></li>
+                            <li><a href="{% url 'signup_view' %}">Sign Up</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+    {% block body %}
+
+
+    {% endblock %}
+    <script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+</body>
+
+</html>  

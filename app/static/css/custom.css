@@ -1,0 +1,12 @@
+.vote-button {
+    max-height: 50px;
+    min-height: 50px;
+}
+
+#CA:hover {
+    stroke: #000;
+}
+
+.black {
+    fill: black;
+}

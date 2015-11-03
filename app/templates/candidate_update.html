@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form action="{% url 'candidate_update_view' candidate.pk %}" enctype="multipart/form-data" method='POST'>
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <p>
+            <input type='submit' value='Update candidate' />
+        </p>
+
+    </form>
+
+     {% if candidate.image %}
+        <p>
+            <img src="{{ candidate.image.url }}">
+        </p>
+        {% endif %}
+
+    <a href="{% url 'candidate_detail_view' candidate.pk %}">Back to {{candidate}}</a>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form action="{% url 'user_update_view' user.pk %}" enctype="multipart/form-data" method='POST'>
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <p>
+            <input type='submit' value='Update user' />
+        </p>
+
+    </form>
+
+
+    <a href="{% url 'user_detail_view' user.pk  %}">Back to {{user}}</a>
+{% endblock %}

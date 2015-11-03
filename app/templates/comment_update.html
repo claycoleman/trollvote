@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form action="{% url 'comment_update_view' comment.pk %}" enctype="multipart/form-data" method='POST'>
+        {% csrf_token %}
+        <h1>Comment about {{comment.candidate}}</h1>
+        {{form.as_p}}
+
+        <p>
+            <input type='submit' value='Update comment' />
+        </p>
+
+    </form>
+    <a href="{% url 'comment_detail_view' comment.pk %}">Back to {{comment}}</a>
+{% endblock %}

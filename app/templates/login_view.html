@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form action="{% url 'login_view' %}" method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        {{valid}}
+        <br>
+        <input type='submit' value='Login In' />
+        <a href="{% url 'signup_view' %}"></a>
+    </form>
+
+{% endblock %}
