@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body %}
+
+<h1 class="text-center">{{race.name}}</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 center {{primary.political_party.initials}}">
+            {% if primary.image %}
+                <img src="{{primary.image.url}}" class="center-block img-responsive">
+            {% endif %}
+            <h3><a href="{% url 'candidate_detail_view' primary.pk %}">{{ primary.name }}</a></h3>
+            <br>  
+            <div class="row">
+                <div class="col-sm-6">
+                    {% if request.user.is_authenticated %}
+                        <h4><span id="up-vote-count">{{ primary.up_vote_count }}</span>
+                        <img  class="vote-button" src="{% if request.user in primary.up_users.all %}{% static 'img/voted-up.png' %}{% else %}{% static 'img/vote-up.png' %}{% endif %}" id="vote-up"></h4>
+                        <br>
+                        <h4><span id="down-vote-count">{{ primary.down_vote_count }}</span>
+                        <img class="vote-button" src="{% if request.user in primary.down_users.all %}{% static 'img/voted-down.png' %}{% else %}{% static 'img/vote-down.png' %}{% endif %}" id="vote-down"></h4>
+                        <input type="hidden" value="{{primary.pk}}" id='pk'>
+                        {% else %}
+                        <h3>Votes for: <span id="up-vote-count">{{ primary.up_vote_count }}</span></h3>
+                        <h3>Votes against: <span id="down-vote-count">{{ primary.down_vote_count }}</span></h3>
+                        <p>Log in or sign up to vote!</p>
+                        {% endif %}
+                </div>
+                <div class="col-sm-6">
+                    <br>
+                    <h4>{{ primary.hometown }}</h4>
+                    <br>  
+                    <h4>{{ primary.known_for }}</h4>
+                </div>
+            </div>
+        </div>
+        <div id="sec-div" class="col-sm-6 center {% if secondary %}{{secondary.political_party.initials}}{% endif %}">
+            {% if secondary %}
+                {% if secondary.image %}
+                    <img id="sec-image" src="{{secondary.image.url}}" class="center-block img-responsive">
+                {% endif %}
+                <a  id="sec-a" href="{% url 'candidate_detail_view' secondary.pk %}"><h3 id="sec-name">{{ secondary.name }}</h3></a>
+                <br>  
+                <div class="row">
+                    <div class="col-sm-6">
+                        {% if request.user.is_authenticated %}
+                            <h4><span id="sec-up-vote-count">{{ secondary.up_vote_count }}</span>
+                            <img  class="vote-button" src="{% if request.user in secondary.up_users.all %}{% static 'img/voted-up.png' %}{% else %}{% static 'img/vote-up.png' %}{% endif %}" id="sec-vote-up"></h4>
+                            <br>
+                            <h4><span id="sec-down-vote-count">{{ secondary.down_vote_count }}</span>
+                            <img class="vote-button" src="{% if request.user in secondary.down_users.all %}{% static 'img/voted-down.png' %}{% else %}{% static 'img/vote-down.png' %}{% endif %}" id="sec-vote-down"></h4>
+                            <input type="hidden" value="{{secondary.pk}}" id='sec-pk'>
+                            {% else %}
+                            <h3>Votes for: <span id="sec-up-vote-count">{{ secondary.up_vote_count }}</span></h3>
+                            <h3>Votes against: <span id="sec-down-vote-count">{{ secondary.down_vote_count }}</span></h3>
+                            <p>Log in or sign up to vote!</p>
+                            {% endif %}
+                    </div>
+                    <div class="col-sm-6">
+                        <br>
+                        <h4 id="sec-hometown">{{ secondary.hometown }}</h4>
+                        <br>  
+                        <h4 id="sec-known-for">{{ secondary.known_for }}</h4>
+                    </div>
+                </div>
+            {% else %}
+                <h3>Sorry, there's only one candidate in this race!</h3>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+<div class="container">
+    
+<div class="row">
+    <div class="col-sm-6">
+        <select  class="form-control" id="selecting-primary">
+            <option value="#">Select a candidate to compare</option>
+            {% for candi in other %}
+                <option value='{{candi.pk}}'>{{candi.name}}</option>
+            {% endfor %}
+        </select>
+        
+    </div>
+    <div class="col-sm-6">
+        <select  class="form-control"  id="comparing_candidates_select">
+            <option value="#">Select a candidate to compare</option>
+            {% for candi in other %}
+                <option value='{{candi.pk}}'>{{candi.name}}</option>
+            {% endfor %}
+        </select>
+        
+    </div>
+</div>
+</div>
+
+
+<br>
+<br>
+<a href="{% url 'candidate_list_view' %}">Back to candidate list</a>
+
+{% endblock %}  

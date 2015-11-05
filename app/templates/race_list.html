@@ -1,16 +1,28 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<a href="{% url 'choose_state_race_view' %}">See races by state...</a>
+<br>
 
+<h3>Races</h3>
+<div class="container">
+    <div class="row">
+        
+    
 {% for race in races %}
-    <a href="{% url 'race_detail_view' race.pk %}">{{ race }}</a></br>
+    <div class="col-sm-3">
+        <a href="{% url 'race_detail_view' race.district %}">{{ race }}</a>
+    </div>
+    
 {% endfor %}
+
+</div>
+</div>
 
 {% if request.user.is_staff %}
 <a href = "{% url 'race_create_view' %}" alt = "race_create_view" %}>Create a new race</a>
 {% endif %}
 <br>
-<a href="{% url 'choose_state_race_view' %}">See races by state...</a>
 
 {% endblock %}
     

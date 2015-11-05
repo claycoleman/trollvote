@@ -37,9 +37,9 @@ for count, candidate_details in enumerate(candidate_list):
         party = PoliticalParty.objects.get(initials=candidate_details[2].text)
     new_candi.political_party = party
     if candidate_details[1].text == "Y":
-        new_candi.known_for = "Current US Senator"
+        new_candi.known_for = "Current US Representative"
     else:
-        new_candi.known_for = "Challenger / Aspiring US Senator"
+        new_candi.known_for = "Challenger / Aspiring US Representative"
     new_candi.hometown = race.state_abbrev
     print "%d: %s" % (count, new_candi.name)
 

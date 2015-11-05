@@ -407,8 +407,8 @@ def political_party_delete_view(request, pk):
 
 
 
-def race_detail_view(request, pk):  
-    race = Race.objects.get(pk=pk)
+def race_detail_view(request, slug):  
+    race = Race.objects.get(district=slug)
 
     context = {}
     context['race'] = race
@@ -486,3 +486,29 @@ def race_delete_view(request, pk):
 
     return redirect('race_list_view')
 
+
+
+def candidate_compare_view(request, slug, pk):
+    context = {}
+    race = Race.objects.get(district=slug)
+    context['race'] = race 
+    primary = race.candidate_set.get(pk=pk)
+    context['primary']  = primary
+    if len(race.candidate_set.all()) > 1:
+        context['secondary'] = race.candidate_set.exclude(pk=primary.pk)[0]
+        context['other'] = race.candidate_set.exclude(pk=primary.pk)
+    else:
+        context['secondary'] = False
+
+    return render_to_response('candidate_compare.html', context, context_instance=RequestContext(request))
+
+def switch_candidates(request):
+    candi = Candidate.objects.get(pk=int(request.GET.get('pk')))
+    if candi.image:
+        url = candi.image.url
+    else: 
+        url = ""
+    in_up = request.user in list(candi.up_users.all())
+    in_down = request.user in list(candi.down_users.all())
+
+    return JsonResponse([candi.name, candi.hometown, candi.known_for, candi.political_party.initials, url, candi.pk, candi.up_vote_count, candi.down_vote_count, in_up, in_down], safe=False)

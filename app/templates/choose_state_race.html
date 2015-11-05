@@ -385,11 +385,11 @@
 
 
 {% for race in races %}
-    <a href="{% url 'race_detail_view' race.pk %}">{{ race }}</a></br>
+    <a href="{% url 'race_detail_view' race.district %}">{{ race }}</a></br>
 {% endfor %}
 
 {% if request.user.is_staff %}
-<a href = "#implement-later" alt = "race_create_view" %}>Create a new race</a>
+<a href = "{% url 'race_create_view' %}" alt = "race_create_view" %}>Create a new race</a>
 {% endif %}
 
 {% endblock %}
