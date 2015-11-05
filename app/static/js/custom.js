@@ -187,19 +187,24 @@ $('#comparing_candidates_select').on('change', function(e) {
             // if they're in the up vote!
             if (data[8]) {
                 var src = $('#sec-vote-down').attr("src")
+                // set down vote button as NOT YET VOTED 
                 src = src.replace(src.match(/[v]+[^_]+/), "vote-down.png");
                 $('#sec-vote-down').attr("src", src);
                 var src2 = $('#sec-vote-up').attr("src")
+                // set up vote button as VOTED 
                 src2 = src2.replace(src2.match(/[v]+[^_]+/), "voted-up.png");
                 $('#sec-vote-up').attr("src", src2);
             } else if (data[9]) {
                 var src = $('#sec-vote-down').attr("src")
+                // set down vote button as VOTED 
                 src = src.replace(src.match(/[v]+[^_]+/), "voted-down.png");
                 $('#sec-vote-down').attr("src", src);
                 var src2 = $('#sec-vote-up').attr("src")
+                // set up vote button as NOT YET VOTED 
                 src2 = src2.replace(src2.match(/[v]+[^_]+/), "vote-up.png");
                 $('#sec-vote-up').attr("src", src2);
             } else { 
+                // set both buttons as NOT YET VOTED
                 var src = $('#sec-vote-down').attr("src")
                 src = src.replace(src.match(/[v]+[^_]+/), "vote-down.png");
                 $('#sec-vote-down').attr("src", src);

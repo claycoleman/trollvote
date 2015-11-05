@@ -1,15 +1,17 @@
+from __future__ import absolute_import
+
 from django.shortcuts import render, render_to_response, redirect
 from django.core.urlresolvers import reverse
-from app.models import Candidate, Comment, CustomUser, PoliticalParty, Race
+from .models import Candidate, Comment, CustomUser, PoliticalParty, Race
 from django.template import RequestContext
-from app.forms import CandidateModelCreateForm, CandidateModelUpdateForm, CommentModelUpdateForm, CustomUserCreateForm, CustomUserModelUpdateForm, UserLogin, CommentForm, PoliticalPartyModelCreateForm, PoliticalPartyModelUpdateForm, RaceModelCreateForm, RaceModelUpdateForm
+from .forms import CandidateModelCreateForm, CandidateModelUpdateForm, CommentModelUpdateForm, CustomUserCreateForm, CustomUserModelUpdateForm, UserLogin, CommentForm, PoliticalPartyModelCreateForm, PoliticalPartyModelUpdateForm, RaceModelCreateForm, RaceModelUpdateForm
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 
 
-def candidate_detail_view(request, pk):  
+def candidate_detail_view(request, pk):
     candidate = Candidate.objects.get(pk=pk)
 
     context = {}
@@ -29,18 +31,21 @@ def candidate_detail_view(request, pk):
 
     return render_to_response('candidate_detail.html', context, context_instance=RequestContext(request))
 
-def candidate_response(request):  
-    #search string from GET dictionary
+
+def candidate_response(request):
+
+    #  search string from GET dictionary
     search_string = request.GET.get('search', '')
-    #query-set Cereals with search string
+#   query-set Cereals with search string
     candidates = Candidate.objects.filter(name__icontains=search_string)
-    #new empty cereal list
+#   new empty cereal list
     candidate_list = []
-    #for loop for cereal query set
+#   for loop for cereal query set
     for candidate in candidates:
         candidate_list.append(candidate.name)
-        #append cereal name to cereal list
+#   append cereal name to cereal list
     return JsonResponse(candidate_list, safe=False)
+
 
 def vote_up(request):
     candidate = Candidate.objects.get(pk=int(request.GET.get('pk')))
@@ -73,9 +78,11 @@ def vote_down(request):
     candidate.save()
     return JsonResponse([candidate.down_vote_count, src, candidate.up_vote_count], safe=False)
 
+
 def ajax_search(request):
     context = {}
     return render_to_response('ajax_search.html', context, context_instance=RequestContext(request))
+
 
 def candidate_list_view(request):
 
@@ -110,7 +117,7 @@ def candidate_update_view(request, pk):
 
     if not request.user.is_staff:
         raise Http404("You're not authorized to be here!")
-        
+
     candidate = Candidate.objects.get(pk=pk)
 
     context['candidate'] = candidate
@@ -479,7 +486,6 @@ def race_update_view(request, pk):
     return render_to_response('race_update.html', context, context_instance=RequestContext(request))
 
 
-
 def race_delete_view(request, pk):
 
     Race.objects.get(pk=pk).delete()
@@ -487,13 +493,12 @@ def race_delete_view(request, pk):
     return redirect('race_list_view')
 
 
-
 def candidate_compare_view(request, slug, pk):
     context = {}
     race = Race.objects.get(district=slug)
-    context['race'] = race 
+    context['race'] = race
     primary = race.candidate_set.get(pk=pk)
-    context['primary']  = primary
+    context['primary'] = primary
     if len(race.candidate_set.all()) > 1:
         context['secondary'] = race.candidate_set.exclude(pk=primary.pk)[0]
         context['other'] = race.candidate_set.exclude(pk=primary.pk)
@@ -502,11 +507,12 @@ def candidate_compare_view(request, slug, pk):
 
     return render_to_response('candidate_compare.html', context, context_instance=RequestContext(request))
 
+
 def switch_candidates(request):
     candi = Candidate.objects.get(pk=int(request.GET.get('pk')))
     if candi.image:
         url = candi.image.url
-    else: 
+    else:
         url = ""
     in_up = request.user in list(candi.up_users.all())
     in_down = request.user in list(candi.down_users.all())

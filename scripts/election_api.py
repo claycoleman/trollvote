@@ -1,14 +1,11 @@
 #! /usr/bin/env python
-import requests, re, os, sys, urllib2, string
+import requests, os, sys, string
 from lxml import html 
 
 sys.path.append('..')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
-from app.models import Candidate, PoliticalParty, Race
-from django.core.files import File
-from django.core.files.temp import NamedTemporaryFile
-from django.conf import settings
+from .models import Candidate, PoliticalParty, Race
 from ghost import Ghost
 
 import django

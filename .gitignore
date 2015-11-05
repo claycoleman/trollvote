@@ -1,2 +1,5 @@
 *.pyc
 app/migrations/
+media/
+local.py
+.DS_Store
